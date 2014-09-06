@@ -1,0 +1,10 @@
+{
+  "name": "ImageProcessing",
+  "version": "1.0",
+  "authors": "saniaky@gmail.com",
+  "dependencies": {
+    "angularjs": "~1.2.23",
+    "bootstrap": "~3.2.0",
+    "angular-file-upload": "~1.1.1"
+  }
+}
