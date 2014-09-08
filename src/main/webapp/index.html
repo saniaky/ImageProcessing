@@ -2,7 +2,7 @@
 <html ng-app="app">
 <head>
     <meta charset="UTF-8">
-    <title>Image processing</title>
+    <title>Обработка изображений</title>
     <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.css"/>
     <link rel="stylesheet" href="css/style.css"/>
     <script src="vendor/jquery/dist/jquery.js"></script>
@@ -13,17 +13,79 @@
 <body ng-controller="mainController">
 
 <div class="container">
-    <div class="h2">{{title}}</div>
+    <div class="h2">Обработка изображений</div>
     <hr>
-    <div class="col-md-6" ng-controller="uploadController" >
-        <form ng-if="imageUrl">
-            <input type="file" file-model="image">
-            <button class="btn btn-info" ng-click="upload()">Загрузить</button>
-        </form>
-        <img ng-src="{{imageUrl}}" class="img-responsive">
-    </div>
-    <div class="col-md-6"></div>
-</div>
+    <div class="row" style="margin-bottom: 20px;">
+        <div class="col-sm-6 col-md-6">
+            <p ng-show="image">
+                <img ng-src="{{image}}" class="img-responsive">
+            </p>
 
+            <form>
+                <input type="file" file-model="newImage">
+                <button class="btn btn-info" ng-click="uploadImage()">Загрузить</button>
+            </form>
+        </div>
+        <div class="col-sm-6 col-md-6">
+            <img ng-src="{{outputImage}}" class="img-responsive">
+        </div>
+    </div>
+
+    <div class="row">
+        <div>
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active"><a href="#tab1" role="tab" data-toggle="tab">Gaussian filter</a></li>
+                <li><a href="#tab2" role="tab" data-toggle="tab">Sobel operator</a></li>
+                <li><a href="#tab3" role="tab" data-toggle="tab">Laplacian operator</a></li>
+                <li><a href="#tab4" role="tab" data-toggle="tab">Settings</a></li>
+            </ul>
+
+            <form name="form" ng-submit="applyFilter(filter)">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab1">
+                        <span ng-init="filter.kernel = 41; filter.sigmaX = 0;"></span>
+                        Gaussian kernel size (must be positive and odd)
+                        <input class="form-control" type="number" name="kernel"
+                               ng-model="filter.kernel" ng-pattern="/^\d*[13579]$/" required>
+                        <br>
+                        Gaussian kernel standard deviation in X direction:
+                        <input class="form-control" type="number" ng-model="filter.sigmaX" required>
+                        <button class="btn btn-info" ng-click="filter.name = 'gauss'" ng-disabled="!form.$valid">
+                            Применить
+                        </button>
+                    </div>
+                    <div class="tab-pane" id="tab2">
+                        <span ng-init="filter.dx = 1; filter.dy = 0;"></span>
+                        <input class="form-control" type="number" name="dx" min="0" max="2"
+                               ng-model="filter.dx" required><br>
+                        <input class="form-control" type="number" name="dy" min="0" max="2"
+                               ng-model="filter.dy" required><br>
+                        <button class="btn btn-info" ng-click="filter.name = 'sobel'" ng-disabled="!form.$valid">
+                            Применить
+                        </button>
+                    </div>
+                    <div class="tab-pane" id="tab3">
+                        <span></span>
+                        Aperture size used to compute the second-derivative filters. The size must be positive and odd.
+                        <input class="form-control" type="number" min="0" max="2"
+                               ng-model="filter.ksize" ng-pattern="/^\d*[13579]$/" required><br>
+                        Optional scale factor for the computed Laplacian values. By default, no scaling is applied.
+                        <input class="form-control" type="number"
+                               ng-model="filter.scale" required><br>
+                        Optional delta value that is added to the results prior to storing them in dst.
+                        <input class="form-control" type="number"
+                               ng-model="filter.delta" required><br>
+                        <button class="btn btn-info" ng-click="filter.name = 'sobel'" ng-disabled="!form.$valid">
+                            Применить
+                        </button>
+                    </div>
+                    <div class="tab-pane" id="tab4">sets</div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="vendor/bootstrap/dist/js/bootstrap.js"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@ import java.io.*;
 @Service
 public class FileServiceImpl implements FileService {
 
-    private static final Logger logger = Logger.getLogger(FileServiceImpl.class);
+    private static final Logger log = Logger.getLogger(FileServiceImpl.class);
 
     @Override
     public File saveFile(MultipartFile file, String path) {
@@ -30,8 +30,9 @@ public class FileServiceImpl implements FileService {
                 outputStream.write(bytes, 0, read);
             }
         } catch (IOException e) {
-            logger.error(e);
+            log.error(e);
         }
         return newFile;
     }
+
 }

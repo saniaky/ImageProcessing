@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author saniaky
  * @since 9/2/14
@@ -12,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HomeController {
 
-    private static final Logger logger = Logger.getLogger(HomeController.class);
+    private static final Logger log = Logger.getLogger(HomeController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String showHomePage() {
-        logger.info("show home page");
+    public String showHomePage(HttpServletRequest request) {
+        log.info("show home page");
         return "index";
     }
 

@@ -3,6 +3,8 @@ package org.imageProcessing.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -11,10 +13,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
-import org.springframework.web.servlet.view.UrlBasedViewResolver;
-import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
-import org.springframework.web.servlet.view.tiles3.TilesView;
 
 /**
  * @author saniaky
@@ -23,12 +21,12 @@ import org.springframework.web.servlet.view.tiles3.TilesView;
 @EnableWebMvc
 @Configuration
 @ComponentScan("org.imageProcessing")
+@PropertySource("classpath:app.properties")
 public class WebAppContext extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-//        registry.addResourceHandler("/assets/**").addResourceLocations("/assets/").setCachePeriod(31556926);
+//        registry.addResourceHandler("/assets/**").addResourceLocations("/assets/");
     }
 
     @Override
@@ -38,21 +36,17 @@ public class WebAppContext extends WebMvcConfigurerAdapter {
 
     @Bean
     public ViewResolver viewResolver() {
-//        UrlBasedViewResolver viewResolver = new UrlBasedViewResolver();
-//        viewResolver.setViewClass(TilesView.class);
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setPrefix("/");
-        viewResolver.setSuffix(".jsp");
+        viewResolver.setSuffix(".html");
         return viewResolver;
     }
-//
-//    @Bean
-//    public TilesConfigurer tilesConfigurer() {
-//        TilesConfigurer tilesConfigurer = new TilesConfigurer();
-//        tilesConfigurer.setDefinitions("/WEB-INF/tiles/tiles.xml");
-//        tilesConfigurer.setCheckRefresh(true);
-//        return tilesConfigurer;
-//    }
+
+    @Bean
+    public PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
+
 
     @Bean
     public MultipartResolver multipartResolver() {

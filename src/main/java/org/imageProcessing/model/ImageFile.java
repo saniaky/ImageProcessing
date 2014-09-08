@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @since 9/3/14
  */
 public class ImageFile {
+
     MultipartFile file;
 
     public MultipartFile getFile() {
@@ -16,4 +17,5 @@ public class ImageFile {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
+
 }
